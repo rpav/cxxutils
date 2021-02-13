@@ -1,18 +1,13 @@
 cmake_minimum_required(VERSION 3.17)
-list(APPEND CMAKE_MODULE_PATH "$ENV{HOME}/vcs/CMakeFiles")
+message("--- ${CMAKE_SOURCE_DIR}/CMake")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake")
+include(CPM)
+
+include(pkg/CMakeSetup)
 include(setup)
 
 project(cxxutils)
-
 enable_testing()
-
-conan_cmake_run(
-  CONANFILE ../conanfile.py
-  PROFILE ${TOOLCHAIN}-${BUILD_CONFIG}
-  SETTINGS compiler.libcxx=${CXX_STDLIB})
-
-include(${CMAKE_CURRENT_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup(TARGETS)
 
 find_package(Doxygen)
 
@@ -22,16 +17,22 @@ file(GLOB_RECURSE HEADERS
 file(GLOB_RECURSE SRC
   src/*.cpp)
 
+include(pkg/GameKernelCore)
+include(pkg/utf8proc)
+include(pkg/nlohmann_json)
+include(pkg/simpleunits)
+include(pkg/Catch2)
+
 add_library(rpav_cxxutils STATIC ${SRC} ${HEADERS})
 target_include_directories(rpav_cxxutils PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include/)
 target_cxx_std(rpav_cxxutils 20)
 target_cxx_features(rpav_cxxutils filesystem)
 target_link_libraries(rpav_cxxutils PUBLIC
-  CONAN_PKG::GameKernelCore
-  CONAN_PKG::utf8proc
-  CONAN_PKG::nlohmann_json
-  CONAN_PKG::simpleunits
-  CONAN_PKG::Catch2
+  GameKernelCore
+  utf8proc
+  nlohmann_json
+  simpleunits
+  Catch2
 )
 
 if(DOXYGEN_FOUND)
