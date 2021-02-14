@@ -1,13 +1,11 @@
 cmake_minimum_required(VERSION 3.17)
-message("--- ${CMAKE_SOURCE_DIR}/CMake")
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake")
-include(CPM)
 
+option(RPAV_CXXUTILS_BUILD_TESTING "Build testing for rpav_cxxutils" ON)
+
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake")
 include(pkg/CMakeSetup)
-include(setup)
 
 project(cxxutils)
-enable_testing()
 
 find_package(Doxygen)
 
@@ -22,6 +20,11 @@ include(pkg/utf8proc)
 include(pkg/nlohmann_json)
 include(pkg/simpleunits)
 include(pkg/Catch2)
+
+if(RPAV_CXXUTILS_BUILD_TESTING)
+  enable_testing()
+  add_subdirectory(t)
+endif()
 
 add_library(rpav_cxxutils STATIC ${SRC} ${HEADERS})
 target_include_directories(rpav_cxxutils PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include/)
@@ -42,8 +45,4 @@ else()
   message(STATUS "Doxygen not found; documentation unavailable")
 endif()
 
-if(BUILD_TESTING)
-  add_subdirectory(t)
-endif()
-
-SetupPost()
+Setup()
