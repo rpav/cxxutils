@@ -33,7 +33,7 @@ inline void if_find(C& c, T&& k, F f)
 {
     auto&& it = c.find(k);
 
-    if(it != c.end()) f(*it);
+    if(it != c.end()) f(it->second);
 }
 
 template<typename C, typename T, typename F>
@@ -41,7 +41,7 @@ inline void if_find(const C& c, T&& k, F f)
 {
     auto&& it = c.find(k);
 
-    if(it != c.end()) f(*it);
+    if(it != c.end()) f(it->second);
 }
 
 template<typename C, typename T = typename C::value_type>
