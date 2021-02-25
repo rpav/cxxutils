@@ -23,7 +23,8 @@ inline void toStream(std::ostream& ss, const vec4& v)
     rpav::stream(ss, "(", v.x, ",", v.y, ",", v.z, ",", v.w, ")");
 }
 
-inline void toStream(std::ostream& ss, const rect& v)
+template<typename T, typename F>
+inline void toStream(std::ostream& ss, const trect<T,F>& v)
 {
     rpav::stream(ss, "[", v.pos.x, ",", v.pos.y, " ", v.size.x, "x", v.size.y, "]");
 }
