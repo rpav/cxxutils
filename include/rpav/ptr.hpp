@@ -251,6 +251,8 @@ public:
 
     ref& operator=(const ref&) = default;
     ref& operator=(ref&&) = default;
+
+    bool is(const ref& v) const { return _ptr == &v; }
 };
 
 template<
