@@ -1,9 +1,7 @@
 #pragma once
 
-#include <vector>
 #include <rpav/iterator.hpp>
 #include <rpav/dynarray.hpp>
-#include <rpav/log.hpp>
 
 namespace rpav {
 
