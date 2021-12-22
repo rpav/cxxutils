@@ -231,53 +231,6 @@ auto maybe_ref(T&& v)
 }
 
 /**
- * Make a std::function from an "invocable"-type.  `std::bind` returns
- * are not supported, use `rpav::mbind` instead .. it sucks less anyway.
- */
-
-template<typename T>
-struct extract_function {
-    using type      = void;
-    using signature = void;
-};
-
-template<typename R, typename... A>
-struct extract_function<R (*)(A...)> {
-    using type      = std::function<R(A...)>;
-    using signature = R(A...);
-};
-
-template<typename R, typename C, typename... A>
-struct extract_function<R (C::*)(A...)> {
-    using type      = std::function<R(A...)>;
-    using signature = R(A...);
-};
-
-template<typename R, typename C, typename... A>
-struct extract_function<R (C::*)(A...) const> {
-    using type      = std::function<R(A...)>;
-    using signature = R(A...);
-};
-
-template<typename R, typename... A>
-struct extract_function<std::function<R(A...)>> {
-    using type      = std::function<R(A...)>;
-    using signature = R(A...);
-};
-
-template<typename F>
-inline auto make_function(const F& f) -> typename extract_function<decltype(&F::operator())>::type
-{
-    return f;
-}
-
-template<typename F, std::enable_if_t<!std::is_class<F>::value, bool> = 0>
-inline auto make_function(F f) -> decltype(f, typename extract_function<decltype(f)>::type())
-{
-    return f;
-}
-
-/**
   Take the constness of one type and apply it to another
  */
 
@@ -412,6 +365,82 @@ using pack_first_t = typename apply_pack<first_t, P>::type;
 
 template<typename P>
 using pack_rest_t = typename apply_pack<rest_t, P>::type;
+
+/**
+ * Make a std::function from an "invocable"-type.  `std::bind` returns
+ * are not supported, use `rpav::mbind` instead .. it sucks less anyway.
+ */
+
+template<typename T>
+struct extract_function {
+    using type      = void;
+    using signature = void;
+    using return_t  = void;
+    using args_t    = parameter_pack<>;
+
+    static constexpr auto   args  = args_t{};
+    static constexpr size_t arity = 0;
+};
+
+template<typename R, typename... A>
+struct extract_function<R (*)(A...)> {
+    using type      = std::function<R(A...)>;
+    using signature = R(A...);
+    using return_t  = R;
+    using args_t    = parameter_pack<A...>;
+    using arg_tuple = std::tuple<A...>;
+
+    static constexpr auto args  = args_t{};
+    static constexpr auto arity = sizeof...(A);
+};
+
+template<typename R, typename C, typename... A>
+struct extract_function<R (C::*)(A...)> {
+    using type      = std::function<R(A...)>;
+    using signature = R(A...);
+    using return_t  = R;
+    using args_t    = parameter_pack<A...>;
+    using arg_tuple = std::tuple<A...>;
+
+    static constexpr auto args  = args_t{};
+    static constexpr auto arity = sizeof...(A);
+};
+
+template<typename R, typename C, typename... A>
+struct extract_function<R (C::*)(A...) const> {
+    using type      = std::function<R(A...)>;
+    using signature = R(A...);
+    using return_t  = R;
+    using args_t    = parameter_pack<A...>;
+    using arg_tuple = std::tuple<A...>;
+
+    static constexpr auto args  = args_t{};
+    static constexpr auto arity = sizeof...(A);
+};
+
+template<typename R, typename... A>
+struct extract_function<std::function<R(A...)>> {
+    using type      = std::function<R(A...)>;
+    using signature = R(A...);
+    using return_t  = R;
+    using args_t    = parameter_pack<A...>;
+    using arg_tuple = std::tuple<A...>;
+
+    static constexpr auto args  = args_t{};
+    static constexpr auto arity = sizeof...(A);
+};
+
+template<typename F>
+inline auto make_function(const F& f) -> typename extract_function<decltype(&F::operator())>::type
+{
+    return f;
+}
+
+template<typename F, std::enable_if_t<!std::is_class<F>::value, bool> = 0>
+inline auto make_function(F f) -> decltype(f, typename extract_function<decltype(f)>::type())
+{
+    return f;
+}
 
 // Math
 
