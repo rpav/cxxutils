@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <utility>
 #include <tuple>
+#include <memory>
 
 #include <rpav/str.hpp>
 

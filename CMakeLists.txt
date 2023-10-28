@@ -1,11 +1,10 @@
 cmake_minimum_required(VERSION 3.17)
+project(cxxutils)
 
-option(RPAV_CXXUTILS_BUILD_TESTING "Build testing for rpav_cxxutils" ON)
+option(CXXUTILS_BUILD_TESTING "Build testing for rpav_cxxutils" ON)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake")
-include(pkg/CMakeSetup)
-
-project(cxxutils)
+include(SimplePkg)
 
 find_package(Doxygen)
 
@@ -15,13 +14,17 @@ file(GLOB_RECURSE HEADERS
 file(GLOB_RECURSE SRC
   src/*.cpp)
 
-include(pkg/GameKernelCore)
-include(pkg/utf8proc)
-include(pkg/nlohmann_json)
-include(pkg/simpleunits)
-include(pkg/Catch2)
+simple_pkg(SimplePkg-Repo)
+simple_pkg(CMakeUtils)
 
-if(RPAV_CXXUTILS_BUILD_TESTING)
+simple_pkg(simpleunits)
+
+simple_pkg(pkg/nlohmann_json/3.9.1)
+simple_pkg(pkg/GameKernelCore/master)
+simple_pkg(pkg/utf8proc/2.6.1)
+simple_pkg(pkg/Catch2/2.13.8)
+
+if(CXXUTILS_BUILD_TESTING)
   enable_testing()
   add_subdirectory(t)
 endif()
@@ -44,5 +47,3 @@ if(DOXYGEN_FOUND)
 else()
   message(STATUS "Doxygen not found; documentation unavailable")
 endif()
-
-Setup()

@@ -1,21 +1,23 @@
-((tasks
+((common
+  (:variables
+   ("build"     . "Debug")
+   ("toolchain" . "gcc")
+   ("target"    . "test"))
+  (:cwd "_build/%toolchain-%build"))
+ (tasks
   (build
-   (:name "Test")
-   (:window "Build/Run %p")
-   (:command "grunt" "cmake_build:all"))
+   (:name "Build")
+   (:window "Build/Run")
+   (:command "mk"))
+  (ctrl-shift-build
+   (:name "Delete cache and run cmake")
+   (:window "Build/Run")
+   (:command "rm -f CMakeCache.txt; cmake ../.."))
   (run
    (:name "Run")
-   (:window "Build/Run %p")
-   (:command "grunt" "cmake_build_run:test"))
+   (:window "Build/Run")
+   (:command "mk && mk test"))
   (clean
-   (:name "Clean %p Build")
-   (:window "Build/Run %p")
-   (:command "grunt" "cmake_build:clean"))
-  (cmake
-   (:name "Configure CMake")
-   (:window "Build/Run %p")
-   (:command "grunt" "cmake_config"))
-  (cmake-clear-cache
-   (:name "Clear Cache and Configure CMake")
-   (:window "Build/Run %p")
-   (:command "grunt" "cmake_config --clear-cache"))))
+   (:name "Clean build")
+   (:window "Build/Run")
+   (:command "mk clean"))))
