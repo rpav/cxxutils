@@ -1,6 +1,5 @@
 #include <cstring>
 
-#include <utf8proc.h>
 #include <rpav/unicode/ustring.hpp>
 
 

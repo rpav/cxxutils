@@ -21,7 +21,6 @@ simple_pkg(simpleunits)
 
 simple_pkg(pkg/nlohmann_json/3.9.1)
 simple_pkg(pkg/GameKernelCore/master)
-simple_pkg(pkg/utf8proc/2.6.1)
 simple_pkg(pkg/Catch2/2.13.8)
 
 if(CXXUTILS_BUILD_TESTING)
@@ -35,7 +34,6 @@ target_cxx_std(rpav_cxxutils 20)
 target_cxx_features(rpav_cxxutils filesystem)
 target_link_libraries(rpav_cxxutils PUBLIC
   GameKernelCore
-  utf8proc
   nlohmann_json
   simpleunits
   Catch2
