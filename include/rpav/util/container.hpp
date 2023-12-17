@@ -50,4 +50,10 @@ void ensure(C& c, typename C::size_type sz)
     c.resize(c.size() > sz ? c.size() : sz);
 }
 
+template<typename T, typename...Ts>
+std::array<T, sizeof...(Ts)+1> make_array(T&& v, Ts&&...vs) {
+    return {v, vs...};
+}
+
+
 } // namespace rpav

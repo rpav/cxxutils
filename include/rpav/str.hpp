@@ -112,6 +112,18 @@ inline strfun strcall(Rest&&... args)
     return [&] { return str(std::forward<Rest>(args)...); };
 }
 
+
+// _variadic_ join; cpp-pipedream / fmtlib / etc can join everything else
+inline auto strjoin(std::string_view joiner)
+{
+    return std::string();
+}
+
+template<typename T, typename...Ts>
+inline auto strjoin(std::string_view joiner, const T& v, const Ts&...vs) {
+    return str(v, joiner, strjoin(joiner, vs...));
+}
+
 } // namespace rpav
 
 #define MAKE_TOSTREAM(T, OBNAME) inline void toStream(std::ostream& s, const T& OBNAME)

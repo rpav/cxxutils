@@ -4,3 +4,7 @@ build/
 _build/
 .commit_msg
 package-local.cmake
+.project-root
+.tasklist.el
+.cache/
+compile_commands.json
