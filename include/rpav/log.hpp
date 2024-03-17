@@ -7,6 +7,10 @@
 #include <rpav/str.hpp>
 #include <rpav/dynamicscope.hpp>
 
+#ifdef ANDROID
+#include <android/log.h>
+#endif
+
 namespace rpav {
 
 enum class LogLevel {
@@ -67,7 +71,7 @@ inline DynamicScope<LogOutput*> LOG_OUTPUT{&LOG_STDOUT};
 template<typename...Rest>
 inline void log_print(std::ostream& os, const Rest&...args) {
 #ifdef ANDROID
-    __android_log_print(ANDROID_LOG_DEBUG, ANDROID_APPNAME, "%s", s.c_str());
+    __android_log_print(ANDROID_LOG_DEBUG, ANDROID_APPNAME, "%s", stream(os, args...).c_str());
 #else
     stream(os, args...);
 #endif
