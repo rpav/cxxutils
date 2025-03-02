@@ -1,4 +1,4 @@
-#include <catch2/catch.hpp>
+#include <catch2.hpp>
 
 #include <rpav/ctti.hpp>
 #include <rpav/log.hpp>

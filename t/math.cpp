@@ -1,5 +1,5 @@
 #include <rpav/math.hpp>
-#include <catch2/catch.hpp>
+#include <catch2.hpp>
 
 using namespace rpav;
 

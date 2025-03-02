@@ -1,6 +1,6 @@
 #include <rpav/ringbuffer.hpp>
 #include <rpav/str/rpav_ringbuffer.hpp>
-#include <catch2/catch.hpp>
+#include <catch2.hpp>
 
 using namespace rpav;
 

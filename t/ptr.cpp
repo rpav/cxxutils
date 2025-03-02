@@ -1,6 +1,6 @@
 #include <rpav/ptr.hpp>
 #include <rpav/log.hpp>
-#include <catch2/catch.hpp>
+#include <catch2.hpp>
 
 using namespace rpav;
 

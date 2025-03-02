@@ -23,6 +23,8 @@ simple_pkg(pkg/nlohmann_json/3.9.1)
 simple_pkg(pkg/GameKernelCore/master)
 simple_pkg(pkg/Catch2/2.13.8)
 
+include(setup)
+
 if(CXXUTILS_BUILD_TESTING)
   enable_testing()
   add_subdirectory(t)

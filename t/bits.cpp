@@ -1,6 +1,6 @@
 #include <cstdint>
 
-#include <catch2/catch.hpp>
+#include <catch2.hpp>
 #include <rpav/bits.hpp>
 #include <rpav/bitset.hpp>
 #include <rpav/log.hpp>

@@ -1,7 +1,7 @@
 #include <rpav/iterator.hpp>
 #include <rpav/str/std.hpp>
 #include <rpav/log.hpp>
-#include <catch2/catch.hpp>
+#include <catch2.hpp>
 
 using namespace rpav;
 using namespace rpav::iter;

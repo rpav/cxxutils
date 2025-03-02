@@ -3,7 +3,7 @@
 #include <rpav/str/rpav.hpp>
 #include <rpav/log.hpp>
 #include <rpav/util.hpp>
-#include <catch2/catch.hpp>
+#include <catch2.hpp>
 
 using namespace rpav;
 

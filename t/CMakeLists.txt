@@ -21,6 +21,7 @@ add_executable(rpav_cxxutils_tests
   ustring.cpp
 )
 target_cxx_std(rpav_cxxutils_tests 20)
+target_include_directories(rpav_cxxutils_tests PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(rpav_cxxutils_tests PRIVATE
   rpav_cxxutils
   GameKernelCore
