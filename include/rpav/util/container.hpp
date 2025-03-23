@@ -28,20 +28,38 @@ inline remove_ref_t<const typename M::mapped_type>* findval(const M& m, T&& k)
     return nullptr;
 }
 
-template<typename C, typename T, typename F>
-inline void if_find(C& c, T&& k, F f)
+template<typename C, typename T, typename Then>
+inline void if_find(C& c, T&& k, Then&& f)
 {
     auto&& it = c.find(k);
 
     if(it != c.end()) f(it->second);
 }
 
-template<typename C, typename T, typename F>
-inline void if_find(const C& c, T&& k, F f)
+template<typename C, typename T, typename Then, typename Else>
+inline void if_find(C& c, T&& k, Then&& f, Else&& e)
 {
     auto&& it = c.find(k);
 
     if(it != c.end()) f(it->second);
+    else e();
+}
+
+template<typename C, typename T, typename Then>
+inline void if_find(const C& c, T&& k, Then&& f)
+{
+    auto&& it = c.find(k);
+
+    if(it != c.end()) f(it->second);
+}
+
+template<typename C, typename T, typename Then, typename Else>
+inline void if_find(const C& c, T&& k, Then&& f, Else&& e)
+{
+    auto&& it = c.find(k);
+
+    if(it != c.end()) f(it->second);
+    else e();
 }
 
 template<typename C, typename T = typename C::value_type>
