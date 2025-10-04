@@ -53,4 +53,15 @@ void memzero(T&& t)
     memset(t, 0);
 }
 
+template<typename F>
+struct onleave {
+    F f;
+
+    onleave(F f) : f(std::move(f)) {}
+    ~onleave() { f(); }
+};
+
+template<typename F>
+onleave(F) -> onleave<F>;
+
 } // namespace rpav
