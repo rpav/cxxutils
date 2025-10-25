@@ -43,7 +43,8 @@ protected:
     {
         if constexpr(config::ptrCheck) {
             if(!p) {
-                throw nullptr_error{rpav::str("Null pointer dereference for ptr<", ctti<T>::name(), ">")};
+                throw nullptr_error{
+                    rpav::str("Null pointer dereference for ptr<", ctti<T>::name(), ">")};
             }
         }
         return p;
@@ -75,10 +76,13 @@ public:
 
     operator T*() const { return _ptr; }
 
-    template<typename S, std::enable_if_t<std::is_same_v<S,T> && !std::is_const_v<S>>>
-    operator const T*() const { return _ptr; }
+    template<typename S, std::enable_if_t<std::is_same_v<S, T> && !std::is_const_v<S>>>
+    operator const T*() const
+    {
+        return _ptr;
+    }
 
-    ptr& operator=(const ptr&) = default;
+    ptr& operator=(const ptr&)     = default;
     ptr& operator=(ptr&&) noexcept = default;
 
     bool operator==(const ptr& p) const { return _ptr == p._ptr; }
@@ -129,7 +133,7 @@ public:
     operator type() { return _ptr; }
 
     ptr& operator=(const ptr&) = default;
-    ptr& operator=(ptr&&) = default;
+    ptr& operator=(ptr&&)      = default;
 
     bool operator==(const ptr& p) const { return _ptr == p._ptr; }
     bool operator!=(const ptr& p) const { return _ptr != p._ptr; }
@@ -246,22 +250,24 @@ public:
        operator T&() const { return *_ptr; }
     T* operator->() const { return _ptr; }
 
-    template<typename S, std::enable_if_t<std::is_same_v<S,T> && !std::is_const_v<S>>>
-    operator const S&() const { return _ptr; }
+    template<typename S, std::enable_if_t<std::is_same_v<S, T> && !std::is_const_v<S>>>
+    operator const S&() const
+    {
+        return _ptr;
+    }
 
     T* get() const { return _ptr; }
 
     T* operator&() const { return _ptr; }
 
     ref& operator=(const ref&) = default;
-    ref& operator=(ref&&) = default;
+    ref& operator=(ref&&)      = default;
 
     bool is(const ref& v) const { return _ptr == &v; }
 };
 
 template<
-    template<typename...>
-    typename T,
+    template<typename...> typename T,
     typename... Ts,
     typename = std::enable_if_t<std::is_same_v<T<Ts...>, ref<Ts...>>>>
 ref(T<Ts...>&) -> ref<Ts...>;
