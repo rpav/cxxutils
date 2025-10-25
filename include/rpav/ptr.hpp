@@ -155,6 +155,7 @@ public:
 // TODO: support custom allocation?
 template<typename T>
 class box {
+protected:
     T* _data{};
 
     inline void maybe_free()
@@ -214,6 +215,48 @@ public:
         b._data = nullptr;
         return *this;
     }
+};
+
+template<typename T>
+struct polybox : box<T> {
+protected:
+    using box<T>::_data;
+    using box<T>::maybe_free;
+
+public:
+    template<typename S>
+    polybox(S* v) : box<T>(v), _type(ctti<S>::type())
+    {}
+
+    polybox(const polybox& v) : box<T>(reinterpret_cast<T*>(v._type->_copy(v._data))), _type(v._type) {}
+    polybox(polybox&& v) noexcept : box<T>(v._data), _type(v._type)
+    {
+        v._data = nullptr;
+        v._type = nullptr;
+    }
+
+    polybox& operator=(const polybox& v)
+    {
+        if(v._type == _type) {
+            *_data = *v._data;
+        } else {
+            maybe_free();
+            _data = reinterpret_cast<T*>(v._type->_copy(v._data));
+            _type = v._type;
+        }
+    }
+
+    polybox& operator=(polybox&& v) noexcept
+    {
+        maybe_free();
+        _data   = v._data;
+        _type   = v._type;
+        v._data = nullptr;
+        v._type = nullptr;
+    }
+
+private:
+    const type_ops* _type{};
 };
 
 // This is basically a `not_null<T>`, but `ref<T>` is shorter.
