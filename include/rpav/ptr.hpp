@@ -161,6 +161,10 @@ class box {
 public:
     box() : _data{new T()} {}
 
+    template<typename S>
+    box(S* v) noexcept : _data(v)
+    {}
+
     box(const box& b) { _data = new T(*b._data); }
     box(box&& b) noexcept
     {
